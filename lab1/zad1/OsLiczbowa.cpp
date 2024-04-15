@@ -1,6 +1,6 @@
 	#include "OsLiczbowa.h"
 	#include <iostream>
-
+using namespace std;
 
 	OsLiczbowa::OsLiczbowa() {
 		min = 0;
@@ -60,10 +60,9 @@
 	int OsLiczbowa::getIlosc() {
 		return ilosc;
 	}
-	ostream& operator <<(ostream& s, const OsLiczbowa&obj) {
-		s << "Min=" << obj.min << "Max=" << obj.max << "Interval=" << obj.interval << "\n";
-		return s
-
+	std::ostream& operator<<(std::ostream& s, const OsLiczbowa& obj) {
+		s << "Min=" << obj.getMin() << " Max=" << obj.getMax() << " Interval=" << obj.getInt() << "\n";
+		return s;
 	}
-	
+	int OsLiczbowa::ilosc = 0;
 	

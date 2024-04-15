@@ -1,7 +1,8 @@
 #pragma once
 #ifndef OSLICZBOWA_H
 #define OSLICZBOWA_H
-
+using namespace std;
+#include <iostream>
 class OsLiczbowa
 {
 private:
@@ -24,8 +25,10 @@ public:
 	double getInt() const;
 	static int getIlosc();
 	void wypisz() const;
-	friend ostream& operator <<(ostream& s, const OsLiczbowa&);
-};
+	friend std::ostream& operator<<(std::ostream& s, const OsLiczbowa& obj);
+
+};	
+
 
 
 
