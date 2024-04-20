@@ -127,8 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ciezarowy.cpp" />
     <ClCompile Include="funkcje.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Motocykl.cpp" />
+    <ClCompile Include="osobowy.cpp" />
+    <ClCompile Include="Pojazd.cpp" />
+    <ClCompile Include="RejestrPojazdów.cpp" />
+    <ClCompile Include="Wlasciciel.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ciezarowy.h" />
+    <ClInclude Include="Motocykl.h" />
+    <ClInclude Include="osobowy.h" />
+    <ClInclude Include="Pojazd.h" />
+    <ClInclude Include="RejestrPojazdów.h" />
+    <ClInclude Include="Wlasciciel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
