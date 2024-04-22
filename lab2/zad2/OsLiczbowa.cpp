@@ -65,4 +65,24 @@ std::ostream& operator<<(std::ostream& s, const OsLiczbowa& obj) {
 	return s;
 }
 int OsLiczbowa::ilosc = 0;
+OsLiczbowa& OsLiczbowa::operator*=(double scale) {
+	double center = (min + max) / 2.0;
+	double newInterval = interval * scale;
+
+	min = center - newInterval / 2.0;
+	max = center + newInterval / 2.0;
+	interval = newInterval;
+
+	return *this;
+}
+OsLiczbowa& OsLiczbowa::operator/=(double scale) {
+	double center = (min + max) / 2.0;
+	double newInterval = interval / scale;
+
+	min = center - newInterval / 2.0;
+	max = center + newInterval / 2.0;
+	interval = newInterval;
+
+	return *this;
+}
 

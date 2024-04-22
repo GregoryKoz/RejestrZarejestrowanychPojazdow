@@ -26,6 +26,8 @@ public:
 	static int getIlosc();
 	void wypisz() const;
 	friend std::ostream& operator<<(std::ostream& s, const OsLiczbowa& obj);
+	OsLiczbowa& operator*=(double scale);
+	OsLiczbowa& operator/=(double scale);
 
 };
 

@@ -16,6 +16,7 @@ public:
     friend std::ostream& operator <<(std::ostream s, const ZbiorOsi& zbior);
     ZbiorOsi& operator=(const ZbiorOsi& zbior);
     ZbiorOsi& operator=(ZbiorOsi&& zbior);
+    ZbiorOsi& operator+=(const OsLiczbowa& os);
 
 };
 #endif

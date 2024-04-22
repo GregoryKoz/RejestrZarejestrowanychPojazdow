@@ -23,6 +23,14 @@ int main() {
 	std::cout << "Liczba obiektow po usunieciu" << OsLiczbowa::getIlosc() << std::endl;
 	ZbiorOsi zbior(1);
 	ZbiorOsi zbior2(3);
-		zbior = zbior2;
+	zbior = zbior2;
+	OsLiczbowa o(1, 3);
+	o *= 3; 
+	std::cout << o.getMin() << " " << o.getMax() << std::endl; 
+	o /= 3; 
+	std::cout << o.getMin() << " " << o.getMax() << std::endl; 
+	OsLiczbowa o1(1, 3);
+	zbior += o1;
+
 	return 0;
 }

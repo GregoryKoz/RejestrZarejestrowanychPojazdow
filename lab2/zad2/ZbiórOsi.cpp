@@ -52,3 +52,14 @@ ZbiorOsi& ZbiorOsi::operator=(const ZbiorOsi& zbior) {
 			}
 		return *this;
 	}
+	ZbiorOsi& ZbiorOsi::operator+=(const OsLiczbowa& os) {
+		OsLiczbowa* noweOsie = new OsLiczbowa[rozmiar + 1];
+		for (int i = 0; i < rozmiar; ++i) {
+			noweOsie[i] = osie[i];
+		}
+		noweOsie[rozmiar] = os;
+		delete[] osie;
+		osie = noweOsie;
+		rozmiar++;
+		return *this;
+	}
