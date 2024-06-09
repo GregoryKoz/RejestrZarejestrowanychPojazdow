@@ -1,3 +1,11 @@
+#include "ciezarowy.h"
+#include "menu.h"
+#include "Motocykl.h"
+#include "Pojazd.h"
+#include "osobowy.h"
+#include "Wlasciciel.h"
+#include "RejestrPojazdów.h"
+#include "funkcje.h"
 
 
 int main(int argc, char* argv[]) {

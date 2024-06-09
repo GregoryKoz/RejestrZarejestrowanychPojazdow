@@ -1,48 +1,40 @@
 //#include <"funkcje.h">
+#include "ciezarowy.h"
+#include "menu.h"
+#include "Motocykl.h"
+#include "Pojazd.h"
+#include "osobowy.h"
+#include "Wlasciciel.h"
+#include "RejestrPojazdów.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 
-void menu() {
-
-	int wybor = -1;
-	while (wybor != 0) {
-		std::cout << "Wybierz opcje: " << std::endl;
-		std::cin >> wybor;
-		while (!std::cin) {
-			std::cout << "Wprowadzono niepoprawny znak" << std::endl;
-			std::cin.clear();
-			std::cin.ignore(1000. '\n');
-			std::cout << "Wybierz opcje: " << std::endl;
-			std::cin >> wybor;
-		}
-		switch (wybor) {
-		case 1: {
-			// zarejestruj pojazd
-		}
-		case 2: {
-			// Dodaj w³aœciciela pojazdu
-		}
-		case 3: {
-			//Zmien w³aœciciela pojazdu
-		}
-		case 4: {
-			// Usuñ z bazy dany pojazd
-		}
-		case 5: {
-			//Wydruk do pliku pojazdu danego typu
-		}
-		case 6: {
-			//Wydruk do pliku konkretnego w³aœciciela pojazdu
-		}
-		case 0: {
-			// KONIEC PROGRAMU
-		}
-		default: {
-			std::cout << "Niepoprawna opcja. Sprobuj ponownie." << std::endl;
-			break;
-		}
-		}
+void Wczytaj(const std::string& nazwaPliku, RejestrPojazdow& rejestr) {
+	std::ifstream plik(nazwaPliku);
+	if (!plik_is_open()) {
+		std::cout << "Nie uda³o siê otworzyæ pliku" << std::endl;
 	}
-
+	std::string linia;
+	while (std::getline(plik, linia)) {
+		std::stringstream ss(linia);
+		std::string typ, imie, nazwisko, pesel, nrRejestracyjny, nazwa;
+		int iloscPasazerow, ladownosc, pojemnoscSilnika, mocSilnika;
+		ss >> typ >> imie >> nazwisko >> pesel >> nrRejestracyjny >> nazwa;
+		Wlasciciel wlasciciel(imie, nazwisko, pesel);
+		if (typ == "SamochodOsobowy") {
+			ss >> iloscPasazerow;
+			rejestr.dodajPojazd(std::make_unique<SamochodOsobowy>(nazwa, nrRejestracyjny, wlasciciel, iloscPasazerow));
+		}
+		else if (typ == "SamochodCiezarowy") {
+			ss >> ladownosc;
+			rejestr.dodajPojazd(std::make_unique<SamochodCiezarowy>(nazwa, nrRejestracyjny, wlasciciel, ladownosc));
+		}
+		else if (typ=="Motocykl"){
+			ss >> pojemnoscSilnika >> mocSilnika;
+			rejestr.dodajPojazd(std::make_unique<Motocykl>(nazwa, nrRejestracyjny, wlasciciel, pojemnoscSilnika, mocSilnika))
+		}
+		}
+	plik.close();
+	}
 }
