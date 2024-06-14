@@ -5,7 +5,7 @@ class SamochodOsobowy : public Pojazd
 private:
 	int iloscPasazerow;
 public:
-	SamochodOsobowy(const string& nazwa, const string& nr, const Wlasciciel& wl, int iloscPasazerow);
+	SamochodOsobowy(const std::string& marka, const std::string& nazwa, const std::string& nrRejestracyjny, const Wlasciciel& wlasciciel, int iloscPasazerow);
 	int getIloscPasazerow() const;
 
 };

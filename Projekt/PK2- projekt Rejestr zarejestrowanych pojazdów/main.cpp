@@ -1,5 +1,4 @@
 #include "ciezarowy.h"
-#include "menu.h"
 #include "Motocykl.h"
 #include "Pojazd.h"
 #include "osobowy.h"
@@ -13,15 +12,16 @@ int main(int argc, char* argv[]) {
         std::cerr << "Jako argumentu uzyj nazwy pliku z koncowka .txt" << std::endl;
         return 0;
     }
+    RejestrPojazdow rejestr;
+    rejestr.nazwaPliku = argv[1];
+   
 
-    nazwapliku = argv[1];
-
-    if (!Wczytaj(nazwapliku) { //wczytywanie z pliku do klas
+    if (!Wczytaj(rejestr.nazwaPliku, rejestr)) { //wczytywanie z pliku do klas
         return 0;
     }
     else
-    {   wyswietlmenu(); // funkcja wypisujaca na ekran menu
-        menu(); // funkcja menu pozwalaj¹ca wywo³ywaæ inne funkcje
+    {   wyswietlMenu(); // funkcja wypisujaca na ekran menu
+        menu(rejestr); // funkcja menu pozwalaj¹ca wywo³ywaæ inne funkcje
 
         return 0;
     }

@@ -1,16 +1,20 @@
 #pragma once
 #include <string>
+#include <iostream>
 #include "Wlasciciel.h"
 using namespace std;
 class Pojazd
 {
 protected:
-	string nazwa;
-	string nrRejestracyjny;
+	std::string typ;
+	std::string marka;
+	std::string nazwa;
+	std::string nrRejestracyjny;
 	Wlasciciel wlasciciel;
 public:
-	Pojazd(const string& nazwa, const string& nrRejestracyjny, const Wlasciciel& wlasciciel);
+	Pojazd(const std::string& typ, const std::string& marka, const std::string& nazwa, const std::string& nrRejestracyjny, const Wlasciciel& wlasciciel);
 	
 	virtual void printInfo() const;
+	friend std::ostream& operator<<(std::ostream& os, const Pojazd& pojazd);
 };
 

@@ -2,20 +2,17 @@
 #include "Pojazd.h"
 #include <vector>
 #include <iostream>
-class RejestrPojazdów
+class RejestrPojazdow
 {
 private:
-	vector<Pojazd*> pojazdy;
+	std::vector<std::unique_ptr<Pojazd>> pojazdy;
+  
 public:
-	RejestrPojazdów();
-	~RejestrPojazdów();
-	void WczytajzPliku(const string& nazwapliku);
-	void DodajPojazd(Pojazd* pojazd);
-	void usunPojazd(const string& nr);
-	void zmienWlasciciela(const string& nr, const Wlasciciel& nowywl);
-	void ZapiszDoPliku(const string& nazwapliku);
-	void NowyWlasciciel();
-	
-
+    string nazwaPliku;
+    void dodajPojazd(std::unique_ptr<Pojazd> pojazd);
+    void usunPojazd(const std::string& nrRejestracyjny);
+    void wyswietlPojazdy() const;
+    void zapiszPojazdyTypu(const std::string& typ, const std::string& nazwaPliku) const;
+    void zapiszPojazdyWlasciciela(const std::string& imie, const std::string& nazwisko, const std::string& nazwaPliku) const;
 };
 

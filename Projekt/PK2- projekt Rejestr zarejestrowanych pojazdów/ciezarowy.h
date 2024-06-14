@@ -1,11 +1,12 @@
 #pragma once
 #include "Pojazd.h"
+
 class SamochodCiezarowy : public Pojazd
 {
 private:
 	int ladownosc;
 public:
-	SamochodCiezarowy(const string& nazwa, const string& nr, const Wlasciciel& wl, int ladownosc);
+	SamochodCiezarowy(const std::string& marka, const std::string& nazwa, const std::string& nrRejestracyjny, const Wlasciciel& wlasciciel, int ladownosc);
 	int getLadownosc()const;
 
 };

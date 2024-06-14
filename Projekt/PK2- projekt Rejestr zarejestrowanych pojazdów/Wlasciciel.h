@@ -8,7 +8,8 @@ private:
 	string nazwisko;
 	string pesel;
 public:
-	Wlasciciel(const string& im, const string& naz, const string& pes);
+	Wlasciciel(const string& imie, const string& nazwisko, const string& pesel);
+	void printInfo() const;
 	string getImie() const;
 	string getNazwisko() const;
 	string getPesel() const;

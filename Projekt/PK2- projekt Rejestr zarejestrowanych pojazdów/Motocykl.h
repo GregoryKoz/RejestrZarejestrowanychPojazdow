@@ -7,7 +7,7 @@ private:
 	int mocSilnika;
 
 public:
-	Motocykl(const string& nazwa, const string& nr, const Wlasciciel& wl, int pojemnoscSilnika, int mocSilnika);
+	Motocykl(const std::string& marka, const std::string& nazwa, const std::string& nrRejestracyjny, const Wlasciciel& wlasciciel, int pojemnoscSilnika, int mocSilnika);
 	int getPojemnosc() const;
 	int getMoc() const;
 
