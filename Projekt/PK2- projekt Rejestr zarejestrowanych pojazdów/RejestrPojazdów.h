@@ -6,6 +6,7 @@ class RejestrPojazdow
 {
 private:
 	std::vector<std::unique_ptr<Pojazd>> pojazdy;
+    std::vector<Wlasciciel> wlasciciele;
   
 public:
     string nazwaPliku;

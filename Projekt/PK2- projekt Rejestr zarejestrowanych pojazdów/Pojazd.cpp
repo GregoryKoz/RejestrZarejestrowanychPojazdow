@@ -13,7 +13,6 @@ void Pojazd::printInfo() const {
 	cout << "Numer rejestracjny: " << nrRejestracyjny << endl;
 	cout << "Wlasciciel: ";  
 	wlasciciel.printInfo();
-	std::cout << std::endl;
 }
 
 

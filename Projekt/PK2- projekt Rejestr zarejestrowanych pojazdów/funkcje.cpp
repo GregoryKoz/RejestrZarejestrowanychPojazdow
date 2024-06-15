@@ -46,13 +46,12 @@ bool Wczytaj(const std::string& nazwaPliku, RejestrPojazdow& rejestr) {
 
 void wyswietlMenu() {
 	std::cout << "Menu:" << std::endl;
-	std::cout << "1.Dodaj nowego w³aœciciela" << std::endl;
-	std::cout << "2. Dodaj nowy pojazd:" << std::endl;
-	std::cout << "3. Usun pojazd:" << std::endl;
-	std::cout << "4. Zmien wlasciciela pojazdu" << std::endl;
-	std::cout << "5. Wypisz wszystkie pojazdy" << std::endl;
-	std::cout << "6. Zapisz rejestr do pliku" << std::endl;
-	std::cout << "7. Wczytaj rejestr z pliku" << std::endl;
+	std::cout << "1. Dodaj nowy pojazd:" << std::endl;
+	std::cout << "2. Usun pojazd" << std::endl;
+	std::cout << "3. Zmien wlasciciela pojazdu" << std::endl;
+	std::cout << "4. Wypisz wszystkie pojazdy" << std::endl;
+	std::cout << "5. Zapisz rejestr do pliku" << std::endl;
+	std::cout << "6. Wczytaj rejestr z pliku" << std::endl;
 	std::cout << "0. Zakoncz program" << std::endl;
 }
 void menu(RejestrPojazdow& rejestr) {
@@ -70,6 +69,37 @@ void menu(RejestrPojazdow& rejestr) {
 		}
 		switch (wybor) {
 		case 1: {
+			string marka, nazwa, nrRejestracyjny;
+			std::cout << "Podaj marke: " << std::endl;
+			std::cin >> marka;
+			std::cout << "Podaj nazwe: ";
+			std::cin >> nazwa;
+			std::cout << "Podaj numer rejestracyjny: ";
+			std::cin >> nrRejestracyjny;
+			// Pamietaj: musze zrobic coœ o w³ascicielu
+			std::cout << "Jakiego typu pojazd chcesz dodac: " << std::endl;
+			std::cout << "1. Samochod osobowy" << std::endl;
+			std::cout << "2. Motocykl" << std::endl;
+			std::cout << "3. Samochod ciezarowy" << std::endl;
+			int typpojazdu = -1;
+			std::cin >> typpojazdu;
+			if (typpojazdu == 1) {
+				int liczbaPasazerow;
+				std::cout << "Podaj liczbe miejsc dla pasa¿erow: ";
+				std::cin >> liczbaPasazerow;
+
+			}
+			else if (typpojazdu == 2) {
+				int pojemnoscSilnika, mocSilnika;
+				std::cout << "Podaj pojemnosc silnika: " << std::endl;
+				std::cin >> pojemnoscSilnika;
+				std::cout << "Podaj moc silnika: " << std::endl;
+				std::cin >> mocSilnika;
+			}
+			else if(typpojazdu == 3){}
+			else {
+				std::cout << "Nieznany typ pojazdu" << std::endl;
+			}
 			break;
 		}
 		case 2: {
@@ -78,9 +108,9 @@ void menu(RejestrPojazdow& rejestr) {
 		case 3: {
 			break;
 		}case 4: {
+			rejestr.wyswietlPojazdy();
 			break;
 		}case 5: {
-			rejestr.wyswietlPojazdy();
 			break;
 		}case 6: {
 			break;
