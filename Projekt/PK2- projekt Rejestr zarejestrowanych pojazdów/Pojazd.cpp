@@ -8,11 +8,24 @@ Pojazd::Pojazd(const std::string& typ, const std::string& marka, const std::stri
 
 
 void Pojazd::printInfo() const {
+	cout << "Typ: " << typ << endl;
 	cout << "Marka: " << marka << endl;
 	cout << "Nazwa: " << nazwa << endl;
 	cout << "Numer rejestracjny: " << nrRejestracyjny << endl;
 	cout << "Wlasciciel: ";  
 	wlasciciel.printInfo();
-}
 
+}
+string Pojazd::getMarka() const {
+	return marka;
+}
+string Pojazd::getNazwa() const {
+	return nazwa;
+}
+string Pojazd::getnrRejestracyjny() const {
+	return nrRejestracyjny;
+}
+string Pojazd::getTyp() const {
+	return typ;
+}
 

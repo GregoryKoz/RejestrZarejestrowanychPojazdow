@@ -6,3 +6,12 @@ Wlasciciel::Wlasciciel(const string& imie, const string& nazwisko, const string&
 void Wlasciciel::printInfo() const {
     std::cout << imie << " " << nazwisko << " Pesel: " << pesel << std::endl;
 }
+string Wlasciciel::getPesel() const {
+    return pesel;
+}
+string Wlasciciel::getNazwisko() const {
+    return nazwisko;
+}
+string Wlasciciel::getImie() const {
+    return imie;
+}

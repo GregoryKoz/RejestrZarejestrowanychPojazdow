@@ -5,7 +5,6 @@ SamochodOsobowy::SamochodOsobowy(const std::string& marka, const std::string& na
 
 void SamochodOsobowy::printInfo() const {
     Pojazd::printInfo();
-    std::cout << "Typ pojazdu: Samochod osobowy" << std::endl;
     std::cout << "Ilosc miejsc: " << iloscPasazerow << std::endl;
     std::cout << std::endl;
 }

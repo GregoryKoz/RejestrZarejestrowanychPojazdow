@@ -5,7 +5,6 @@ Motocykl::Motocykl(const std::string& marka, const std::string& nazwa, const std
 
 void Motocykl::printInfo() const {
     Pojazd::printInfo();
-    std::cout << "Typ pojazdu: Motocykl" << std::endl;
     std::cout << "Pojemnosc silnika: " << pojemnoscSilnika << "cm^3" << std::endl;
     std::cout << "Moc silnika: " << mocSilnika << "KM" << std::endl;
     std::cout << std::endl;

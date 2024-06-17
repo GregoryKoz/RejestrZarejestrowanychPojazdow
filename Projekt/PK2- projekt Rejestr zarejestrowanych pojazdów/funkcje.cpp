@@ -21,17 +21,18 @@ bool Wczytaj(const std::string& nazwaPliku, RejestrPojazdow& rejestr) {
 			int iloscPasazerow, ladownosc, pojemnoscSilnika, mocSilnika;
 			ss >> typ >> imie >> nazwisko >> pesel >> nrRejestracyjny >> marka >> nazwa;
 			Wlasciciel wlasciciel(imie, nazwisko, pesel);
+			
 			if (typ == "SamochodOsobowy") {
 				ss >> iloscPasazerow;
-				rejestr.dodajPojazd(std::make_unique<SamochodOsobowy>(marka,nazwa, nrRejestracyjny, wlasciciel, iloscPasazerow));
+				rejestr.dodajPojazd(new SamochodOsobowy(marka, nazwa, nrRejestracyjny, wlasciciel, iloscPasazerow));
 			}
 			else if (typ == "SamochodCiezarowy") {
 				ss >> ladownosc;
-				rejestr.dodajPojazd(std::make_unique<SamochodCiezarowy>(marka,nazwa, nrRejestracyjny, wlasciciel, ladownosc));
+				rejestr.dodajPojazd(new SamochodCiezarowy(marka, nazwa, nrRejestracyjny, wlasciciel, ladownosc));
 			}
 			else if (typ == "Motocykl") {
 				ss >> pojemnoscSilnika >> mocSilnika;
-				rejestr.dodajPojazd(std::make_unique<Motocykl>(marka,nazwa, nrRejestracyjny, wlasciciel, pojemnoscSilnika, mocSilnika));
+				rejestr.dodajPojazd(new Motocykl(marka, nazwa, nrRejestracyjny, wlasciciel, pojemnoscSilnika, mocSilnika));
 			}
 		}
 		plik.close();

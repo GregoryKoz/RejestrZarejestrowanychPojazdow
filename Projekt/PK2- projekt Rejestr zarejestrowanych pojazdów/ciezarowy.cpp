@@ -5,7 +5,6 @@ SamochodCiezarowy::SamochodCiezarowy(const std::string& marka, const std::string
 
 void SamochodCiezarowy::printInfo() const {
     Pojazd::printInfo();
-    std::cout << "Typ pojazdu: Samochod ciezarowy" << std::endl;
     std::cout << "Ladownosc: " << ladownosc << " kg" << std::endl;
     std::cout << std::endl;
 }

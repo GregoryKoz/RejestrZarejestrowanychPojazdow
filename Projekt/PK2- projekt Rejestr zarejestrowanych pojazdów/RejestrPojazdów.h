@@ -5,15 +5,17 @@
 class RejestrPojazdow
 {
 private:
-	std::vector<std::unique_ptr<Pojazd>> pojazdy;
+	std::vector<Pojazd*> pojazdy;
     std::vector<Wlasciciel> wlasciciele;
   
 public:
     string nazwaPliku;
-    void dodajPojazd(std::unique_ptr<Pojazd> pojazd);
+    void dodajPojazd(Pojazd* pojazd);
     void usunPojazd(const std::string& nrRejestracyjny);
     void wyswietlPojazdy() const;
+    Wlasciciel* znajdzWlasciciela(const std::string& pesel);
     void zapiszPojazdyTypu(const std::string& typ, const std::string& nazwaPliku) const;
     void zapiszPojazdyWlasciciela(const std::string& imie, const std::string& nazwisko, const std::string& nazwaPliku) const;
+    ~RejestrPojazdow();
 };
 
