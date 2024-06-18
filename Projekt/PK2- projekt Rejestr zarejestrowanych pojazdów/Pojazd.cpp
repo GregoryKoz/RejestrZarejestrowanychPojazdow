@@ -28,4 +28,11 @@ string Pojazd::getnrRejestracyjny() const {
 string Pojazd::getTyp() const {
 	return typ;
 }
+void Pojazd::ustawWlasciciela(const Wlasciciel& nowyWlasciciel) {
+	wlasciciel = nowyWlasciciel;
+}
+const Wlasciciel& Pojazd::getWlasciciel() const {
+	return wlasciciel;
+}
+
 

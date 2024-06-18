@@ -8,3 +8,6 @@ void SamochodOsobowy::printInfo() const {
     std::cout << "Ilosc miejsc: " << iloscPasazerow << std::endl;
     std::cout << std::endl;
 }
+int SamochodOsobowy::getIloscPasazerow() const {
+    return iloscPasazerow;
+}

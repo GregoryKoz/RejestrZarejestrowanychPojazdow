@@ -8,3 +8,6 @@ void SamochodCiezarowy::printInfo() const {
     std::cout << "Ladownosc: " << ladownosc << " kg" << std::endl;
     std::cout << std::endl;
 }
+int SamochodCiezarowy::getLadownosc() const {
+    return ladownosc;
+}

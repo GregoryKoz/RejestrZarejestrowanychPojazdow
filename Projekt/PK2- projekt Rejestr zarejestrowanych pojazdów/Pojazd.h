@@ -13,11 +13,13 @@ protected:
 	Wlasciciel wlasciciel;
 public:
 	Pojazd(const std::string& typ, const std::string& marka, const std::string& nazwa, const std::string& nrRejestracyjny, const Wlasciciel& wlasciciel);
-	
+
 	virtual void printInfo() const;
 	string getTyp() const;
 	string getMarka() const;
 	string getNazwa() const;
 	string getnrRejestracyjny() const;
+	void ustawWlasciciela(const Wlasciciel& nowyWlasciciel);
+	const Wlasciciel& getWlasciciel() const;
 };
 

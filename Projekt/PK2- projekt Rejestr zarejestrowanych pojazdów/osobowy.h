@@ -7,6 +7,7 @@ private:
 public:
 	SamochodOsobowy(const std::string& marka, const std::string& nazwa, const std::string& nrRejestracyjny, const Wlasciciel& wlasciciel, int iloscPasazerow);
 	void printInfo() const override;
+	int getIloscPasazerow() const;
 
 };
 

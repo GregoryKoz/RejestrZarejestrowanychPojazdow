@@ -7,6 +7,8 @@
 #include "funkcje.h"
 
 
+
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         std::cerr << "Jako argumentu uzyj nazwy pliku z koncowka .txt" << std::endl;
@@ -22,6 +24,7 @@ int main(int argc, char* argv[]) {
     else
     {   wyswietlMenu(); // funkcja wypisujaca na ekran menu
         menu(rejestr); // funkcja menu pozwalaj¹ca wywo³ywaæ inne funkcje
+        Zapisz(rejestr.nazwaPliku, rejestr);
 
         return 0;
     }

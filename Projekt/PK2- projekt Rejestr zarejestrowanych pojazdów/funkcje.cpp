@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 
+
 bool Wczytaj(const std::string& nazwaPliku, RejestrPojazdow& rejestr) {
 	std::ifstream plik(nazwaPliku);
 	if (plik.is_open()) {
@@ -21,7 +22,11 @@ bool Wczytaj(const std::string& nazwaPliku, RejestrPojazdow& rejestr) {
 			int iloscPasazerow, ladownosc, pojemnoscSilnika, mocSilnika;
 			ss >> typ >> imie >> nazwisko >> pesel >> nrRejestracyjny >> marka >> nazwa;
 			Wlasciciel wlasciciel(imie, nazwisko, pesel);
-			
+			Wlasciciel* istniejacyWlasciciel = rejestr.znajdzWlasciciela(pesel);
+			if (!istniejacyWlasciciel) {
+				rejestr.dodajWlasciciela(wlasciciel);
+				istniejacyWlasciciel = rejestr.znajdzWlasciciela(pesel);
+			}
 			if (typ == "SamochodOsobowy") {
 				ss >> iloscPasazerow;
 				rejestr.dodajPojazd(new SamochodOsobowy(marka, nazwa, nrRejestracyjny, wlasciciel, iloscPasazerow));
@@ -44,15 +49,46 @@ bool Wczytaj(const std::string& nazwaPliku, RejestrPojazdow& rejestr) {
 		return false;
 	}
 }
+bool Zapisz(const std::string& nazwaPliku, const RejestrPojazdow& rejestr) {
+	std::ofstream plik(nazwaPliku);
+	if (plik.is_open()) {
+		for (const auto& pojazd : rejestr.getPojazdy()) {
+			plik << pojazd->getTyp() << " "
+				<< pojazd->getWlasciciel().getImie() << " "
+				<< pojazd->getWlasciciel().getNazwisko() << " "
+				<< pojazd->getWlasciciel().getPesel() << " "
+				<< pojazd->getnrRejestracyjny() << " "
+				<< pojazd->getMarka() << " "
+				<< pojazd->getNazwa() << " ";
+			if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) {
+				plik << so->getIloscPasazerow();
+			}
+			else if (SamochodCiezarowy* sc = dynamic_cast<SamochodCiezarowy*>(pojazd)) {
+				plik << sc->getLadownosc();
+			}
+			else if (Motocykl* m = dynamic_cast<Motocykl*>(pojazd)) {
+				plik << m->getPojemnoscSilnika() << " " << m->getMocSilnika();
+			}
+			plik << std::endl;
+		}
+		plik.close();
+		return true;
+	}
+	else {
+		std::cout << "Nie mozna zapisac pliku" << std::endl;
+		return false;
+	}
+}
 
 void wyswietlMenu() {
 	std::cout << "Menu:" << std::endl;
-	std::cout << "1. Dodaj nowy pojazd:" << std::endl;
+	std::cout << "1. Dodaj nowy pojazd" << std::endl;
 	std::cout << "2. Usun pojazd" << std::endl;
 	std::cout << "3. Zmien wlasciciela pojazdu" << std::endl;
 	std::cout << "4. Wypisz wszystkie pojazdy" << std::endl;
-	std::cout << "5. Zapisz rejestr do pliku" << std::endl;
-	std::cout << "6. Wczytaj rejestr z pliku" << std::endl;
+	std::cout << "5. Zapisz typ pojazdu do pliku" << std::endl;
+	std::cout << "6. Wypisz wszystkich wlascicieli" << std::endl;
+	std::cout << "7. Zapisz pojazdy wybranego wlasciciela do pliku " << std::endl;
 	std::cout << "0. Zakoncz program" << std::endl;
 }
 void menu(RejestrPojazdow& rejestr) {
@@ -70,50 +106,217 @@ void menu(RejestrPojazdow& rejestr) {
 		}
 		switch (wybor) {
 		case 1: {
-			string marka, nazwa, nrRejestracyjny;
-			std::cout << "Podaj marke: " << std::endl;
+			string marka, nazwa, nrRejestracyjny, pesel;
+
+			std::cout << "Podaj marke: ";
 			std::cin >> marka;
 			std::cout << "Podaj nazwe: ";
 			std::cin >> nazwa;
-			std::cout << "Podaj numer rejestracyjny: ";
-			std::cin >> nrRejestracyjny;
-			// Pamietaj: musze zrobic coœ o w³ascicielu
+			bool poprawnyNr = false;
+			while (!poprawnyNr) {
+				cout << "Podaj numer rejestracyjny: ";
+				cin >> nrRejestracyjny;
+				poprawnyNr = true;
+				for (auto pojazd : rejestr.getPojazdy()) {
+					if (pojazd->getnrRejestracyjny() == nrRejestracyjny) {
+						poprawnyNr = false;
+						std::cout << "Pojazd o takim numerze juz istnieje. Sprobuj ponownie." << std::endl;
+						std::cin.clear();
+						std::cin.ignore(1000, '\n');
+						break;
+					}
+				}
+			}
+				
+			std::cout << "Lista wlascicieli w systemie: " << std::endl;
+			rejestr.wypiszWlascicieli();
+			bool poprawnyPesel = false;
+			while (!poprawnyPesel) {
+				std::cout << "Podaj pesel wlasciciela pojazdu (11cyfr): ";
+				std::cin >> pesel;
+				if (pesel.size() == 11) {
+					poprawnyPesel = true;
+					for (char c : pesel) {
+						if (!isdigit(c)) {
+							poprawnyPesel = false;
+							break;
+						}
+					}
+				}
+				if (!poprawnyPesel) {
+					std::cout << "Podano bledny pesel. Sprobuj ponownie." << std::endl;
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+				}
+			}
+			Wlasciciel* wlasciciel = nullptr;
+			if (rejestr.znajdzWlasciciela(pesel) == nullptr) {
+				string imie, nazwisko;
+				std::cout << "Nie znaleziono wlasciciela o takim peselu w systemie - tworzymy nowego." << std::endl;
+				std::cout << "Podaj imie: ";
+				std::cin >> imie;
+				std::cout << "Podaj nazwisko: ";
+				std::cin >> nazwisko;
+				wlasciciel = new Wlasciciel(imie, nazwisko, pesel);
+				rejestr.dodajWlasciciela(*wlasciciel);
+
+			}
+			else {
+				wlasciciel = rejestr.znajdzWlasciciela(pesel);
+			}
 			std::cout << "Jakiego typu pojazd chcesz dodac: " << std::endl;
 			std::cout << "1. Samochod osobowy" << std::endl;
 			std::cout << "2. Motocykl" << std::endl;
 			std::cout << "3. Samochod ciezarowy" << std::endl;
-			int typpojazdu = -1;
+			int typpojazdu=-1;
 			std::cin >> typpojazdu;
+			while (!std::cin || typpojazdu < 1 || typpojazdu > 3) {
+				std::cout << "Nieznany typ pojazdu. Sprobuj ponownie." << std::endl;
+				std::cin.clear();
+				std::cin.ignore(1000, '\n');
+				std::cout << "Jakiego typu pojazd chcesz dodac: " << std::endl;
+				std::cout << "1. Samochod osobowy" << std::endl;
+				std::cout << "2. Motocykl" << std::endl;
+				std::cout << "3. Samochod ciezarowy" << std::endl;
+				std::cin >> typpojazdu;
+			}
 			if (typpojazdu == 1) {
 				int liczbaPasazerow;
-				std::cout << "Podaj liczbe miejsc dla pasa¿erow: ";
+				std::cout << "Podaj liczbe miejsc dla pasazerow (max 9): ";
 				std::cin >> liczbaPasazerow;
-
+				while (!std::cin || liczbaPasazerow<1 || liczbaPasazerow >9) {
+					std::cout << "Niepoprawne dane wejsciowe. Sprobuj ponownie" << std::endl;
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Podaj liczbe miejsc dla pasazerow (max 9): ";
+					std::cin >> liczbaPasazerow;
+				}
+				rejestr.dodajPojazd(new SamochodOsobowy(marka, nazwa, nrRejestracyjny, *wlasciciel, liczbaPasazerow));
+				std::cout << "Dodano pojazd" << std::endl;
 			}
 			else if (typpojazdu == 2) {
 				int pojemnoscSilnika, mocSilnika;
-				std::cout << "Podaj pojemnosc silnika: " << std::endl;
+				std::cout << "Podaj pojemnosc silnika: ";
 				std::cin >> pojemnoscSilnika;
-				std::cout << "Podaj moc silnika: " << std::endl;
+				while (!std::cin || pojemnoscSilnika <= 0) {
+					std::cout << "Niepoprawne dane wejsciowe. Sprobuj ponownie" << std::endl;
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Podaj pojemnosc silnika: ";
+					std::cin >> pojemnoscSilnika;
+				}
+				std::cout << "Podaj moc silnika: ";
 				std::cin >> mocSilnika;
+				while (!std::cin || mocSilnika <= 0) {
+					std::cout << "Niepoprawne dane wejsciowe. Sprobuj ponownie" << std::endl;
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Podaj moc silnika: ";
+					std::cin >> mocSilnika;
+				}
+				rejestr.dodajPojazd(new Motocykl(marka, nazwa, nrRejestracyjny, *wlasciciel, pojemnoscSilnika, mocSilnika));
+				std::cout << "Dodano pojazd" << std::endl;
 			}
-			else if(typpojazdu == 3){}
-			else {
-				std::cout << "Nieznany typ pojazdu" << std::endl;
+			else if (typpojazdu == 3) {
+				int ladownosc;
+				std::cout << "Podaj ladownosc: ";
+				std::cin >> ladownosc;
+				while (!std::cin || ladownosc <= 0) {
+					std::cout << "Niepoprawne dane wejsciowe. Sprobuj ponownie" << std::endl;
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+					std::cout << "Podaj ladownosc: ";
+					std::cin >> ladownosc;
+				}
+				rejestr.dodajPojazd(new SamochodCiezarowy(marka, nazwa, nrRejestracyjny, *wlasciciel, ladownosc));
+				std::cout << "Dodano pojazd" << std::endl;
 			}
 			break;
 		}
 		case 2: {
+			string nrRejestracyjny;
+			std::cout << "Podaj numer rejestracyjny pojazdu do usuniecia: ";
+			std::cin >> nrRejestracyjny;
+			rejestr.usunPojazd(nrRejestracyjny);
 			break;
 		}
 		case 3: {
+			string nrRejestracyjny, pesel, imie, nazwisko;
+			std::cout << "Podaj numer rejestracyjny pojazdu do zmiany wlasciciela: ";
+			std::cin >> nrRejestracyjny;
+			std::cout << "Wlasciciele zapisani w systemie:" << std::endl;
+			rejestr.wypiszWlascicieli();
+			bool poprawnyPesel = false;
+			while (!poprawnyPesel) {
+				std::cout << "Podaj pesel wlasciciela pojazdu (11cyfr): ";
+				std::cin >> pesel;
+				if (pesel.size() == 11) {
+					poprawnyPesel = true;
+					for (char c : pesel) {
+						if (!isdigit(c)) {
+							poprawnyPesel = false;
+							break;
+						}
+					}
+				}
+				if (!poprawnyPesel) {
+					std::cout << "Podano bledny pesel. Sprobuj ponownie." << std::endl;
+					std::cin.clear();
+					std::cin.ignore(1000, '\n');
+				}
+			}
+			Wlasciciel* nowyWlasciciel = rejestr.znajdzWlasciciela(pesel);
+			if (!nowyWlasciciel) {
+				std::cout << "Nieznaleziono wlasciciela o podanym numerze pesel- tworzymy nowego.";
+				std::cout << "Podaj imie: ";
+				std::cin >> imie;
+				std::cout << "Podaj nazwisko: ";
+				std::cin >> nazwisko;
+				nowyWlasciciel = new Wlasciciel(imie, nazwisko, pesel);
+				rejestr.dodajWlasciciela(*nowyWlasciciel);
+			}
+			rejestr.zmienWlasciciela(nrRejestracyjny, *nowyWlasciciel);
 			break;
 		}case 4: {
 			rejestr.wyswietlPojazdy();
 			break;
 		}case 5: {
+			string typ, nazwaPliku;
+			std::cout << "Podaj typ pojazdu: " << std::endl;
+			std::cout << "1. Samochod osobowy" << std::endl;
+			std::cout << "2. Motocykl" << std::endl;
+			std::cout << "3. Samochod ciezarowy" << std::endl;
+			int typpojazdu = -1;
+			std::cin >> typpojazdu;
+			while (!std::cin || typpojazdu < 1 || typpojazdu > 3) {
+				std::cout << "Nieznany typ pojazdu. Sprobuj ponownie." << std::endl;
+				std::cin.clear();
+				std::cin.ignore(1000, '\n');
+				std::cout << "Jakiego typu pojazd chcesz dodac: " << std::endl;
+				std::cout << "1. Samochod osobowy" << std::endl;
+				std::cout << "2. Motocykl" << std::endl;
+				std::cout << "3. Samochod ciezarowy" << std::endl;
+				std::cin >> typpojazdu;
+			}
+			if (typpojazdu == 1) {
+				typ = "SamochodOsobowy";
+				nazwaPliku = "SamochodOsobowy.txt";
+			}
+			else if (typpojazdu == 2) {
+				typ = "Motocykl";
+				nazwaPliku = "Motocykl.txt";
+			}
+			else if (typpojazdu == 3) {
+				typ = "SamochodCiezarowy";
+				nazwaPliku = "SamochodCiezarowy.txt";
+			}
+			
+
+			rejestr.zapiszPojazdyTypu(typ, nazwaPliku);
+			std::cout << "Zapisano do pliku: " << nazwaPliku << std::endl;
 			break;
 		}case 6: {
+			rejestr.wypiszWlascicieli();
 			break;
 		}case 7: {
 			break;

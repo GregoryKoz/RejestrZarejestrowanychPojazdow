@@ -9,3 +9,10 @@ void Motocykl::printInfo() const {
     std::cout << "Moc silnika: " << mocSilnika << "KM" << std::endl;
     std::cout << std::endl;
 }
+int Motocykl::getPojemnoscSilnika() const {
+    return pojemnoscSilnika;
+}
+    
+int Motocykl::getMocSilnika() const {
+    return mocSilnika;
+}
