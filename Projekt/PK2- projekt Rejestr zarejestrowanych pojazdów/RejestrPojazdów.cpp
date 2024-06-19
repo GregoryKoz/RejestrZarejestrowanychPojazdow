@@ -93,4 +93,43 @@ void RejestrPojazdow::zapiszPojazdyTypu(const std::string& typ, const std::strin
         }
     }
 }
-//void zapiszPojazdyWlasciciela(const std::string& imie, const std::string& nazwisko, const std::string& nazwaPliku) const;
+void RejestrPojazdow::zapiszPojazdyWlasciciela(const std::string& pesel, const std::string& nazwaPliku) {
+    std::ofstream plik(nazwaPliku);
+    if (!plik.is_open()) {
+        std::cout << "Nie mozna otworzyc pliku." << std::endl;
+        return;
+    }
+    Wlasciciel* wlasciciel = znajdzWlasciciela(pesel);
+    if (!wlasciciel) {
+        std::cout << "Taki wlasciciel nie istnieje." << std::endl;
+        return;
+    }
+    else {
+        plik << "Imie: " << wlasciciel->getImie() << std::endl;
+        plik << "Nazwisko: " << wlasciciel->getNazwisko() << std::endl;
+        plik << "Pesel: " << wlasciciel->getPesel() << std::endl;
+        plik << "Pojazdy:" << std::endl;
+        plik << std::endl;
+        std::cout << "Zapisano dane do pliku " << nazwaPliku << std::endl;
+    }
+    for (const auto& pojazd : pojazdy) {
+        if (pojazd->getWlasciciel().getPesel() == pesel) {
+            plik << "Typ: " << pojazd->getTyp() << std::endl;
+            plik << "Marka: " << pojazd->getMarka() << std::endl;
+            plik << "Nazwa: " << pojazd->getNazwa() << std::endl;
+            plik << "Numer rejestracyjny: " << pojazd->getnrRejestracyjny() << std::endl;
+            if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) {
+                plik << "Ilosc miejsc: " << so->getIloscPasazerow() << std::endl;
+            }
+            else if (SamochodCiezarowy* sc = dynamic_cast<SamochodCiezarowy*>(pojazd)) {
+                plik << "Maksymalna ladownosc: " << sc->getLadownosc() << std::endl;
+            }
+            else if (Motocykl* m = dynamic_cast<Motocykl*>(pojazd)) {
+                plik << "Pojemnosc silnika: " << m->getPojemnoscSilnika() << std::endl;
+                plik << "Moc silnika: " << m->getMocSilnika();
+            }
+            plik << std::endl; 
+        }
+    }
+
+}

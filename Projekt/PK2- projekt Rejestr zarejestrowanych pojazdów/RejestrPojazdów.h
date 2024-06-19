@@ -18,7 +18,7 @@ public:
     void wyswietlPojazdy() const;
     Wlasciciel* znajdzWlasciciela(const std::string& pesel);
     void zapiszPojazdyTypu(const std::string& typ, const std::string& nazwaPliku);
-    void zapiszPojazdyWlasciciela(const std::string& imie, const std::string& nazwisko, const std::string& nazwaPliku);
+    void zapiszPojazdyWlasciciela(const std::string& pesel, const std::string& nazwaPliku);
     ~RejestrPojazdow();
     void wypiszWlascicieli() const;
     bool dodajWlasciciela(const Wlasciciel& wlasciciel);

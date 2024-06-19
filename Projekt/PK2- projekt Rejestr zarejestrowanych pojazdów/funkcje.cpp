@@ -107,11 +107,14 @@ void menu(RejestrPojazdow& rejestr) {
 		switch (wybor) {
 		case 1: {
 			string marka, nazwa, nrRejestracyjny, pesel;
-
-			std::cout << "Podaj marke: ";
+			std::cout << "Podaj marke (1 wyraz- wiecej nie jest brane pod uwage): ";
 			std::cin >> marka;
-			std::cout << "Podaj nazwe: ";
+			std::cin.clear();
+			std::cin.ignore(1000, '\n');
+			std::cout << "Podaj nazwe (1 wyraz- wiecej nie jest brane pod uwage): ";
 			std::cin >> nazwa;
+			std::cin.clear();
+			std::cin.ignore(1000, '\n');
 			bool poprawnyNr = false;
 			while (!poprawnyNr) {
 				cout << "Podaj numer rejestracyjny: ";
@@ -127,7 +130,8 @@ void menu(RejestrPojazdow& rejestr) {
 					}
 				}
 			}
-				
+			std::cin.clear();
+			std::cin.ignore(1000, '\n');
 			std::cout << "Lista wlascicieli w systemie: " << std::endl;
 			rejestr.wypiszWlascicieli();
 			bool poprawnyPesel = false;
@@ -153,10 +157,32 @@ void menu(RejestrPojazdow& rejestr) {
 			if (rejestr.znajdzWlasciciela(pesel) == nullptr) {
 				string imie, nazwisko;
 				std::cout << "Nie znaleziono wlasciciela o takim peselu w systemie - tworzymy nowego." << std::endl;
-				std::cout << "Podaj imie: ";
-				std::cin >> imie;
-				std::cout << "Podaj nazwisko: ";
-				std::cin >> nazwisko;
+				bool poprawneImie = false;
+				while (!poprawneImie) {
+					std::cout << "Podaj imie: ";
+					std::cin >> imie;
+					poprawneImie = true;
+					for (char c : imie) {
+						if (!isalpha(c)) {
+							poprawneImie = false;
+							std::cout << "Imie nie moze zawierac cyfr. Sprobuj ponownie." << std::endl;
+							break;
+						}
+					}
+				}
+				bool poprawneNazwisko = false;
+				while (!poprawneNazwisko) {
+					std::cout << "Podaj nazwisko: ";
+					std::cin >> nazwisko;
+					poprawneNazwisko = true;
+					for (char c : nazwisko) {
+						if (!isalpha(c)) {
+							poprawneNazwisko = false;
+							std::cout << "Nazwisko nie moze zawierac cyfr. Sprobuj ponownie." << std::endl;
+							break;
+						}
+					}
+				}
 				wlasciciel = new Wlasciciel(imie, nazwisko, pesel);
 				rejestr.dodajWlasciciela(*wlasciciel);
 
@@ -268,10 +294,32 @@ void menu(RejestrPojazdow& rejestr) {
 			Wlasciciel* nowyWlasciciel = rejestr.znajdzWlasciciela(pesel);
 			if (!nowyWlasciciel) {
 				std::cout << "Nieznaleziono wlasciciela o podanym numerze pesel- tworzymy nowego.";
-				std::cout << "Podaj imie: ";
-				std::cin >> imie;
-				std::cout << "Podaj nazwisko: ";
-				std::cin >> nazwisko;
+				bool poprawneImie = false;
+				while (!poprawneImie) {
+					std::cout << "Podaj imie: ";
+					std::cin >> imie;
+					poprawneImie = true;
+					for (char c : imie) {
+						if (!isalpha(c)) {
+							poprawneImie = false;
+							std::cout << "Imie nie moze zawierac cyfr. Sprobuj ponownie." << std::endl;
+							break;
+						}
+					}
+				}
+				bool poprawneNazwisko = false;
+				while (!poprawneNazwisko) {
+					std::cout << "Podaj nazwisko: ";
+					std::cin >> nazwisko;
+					poprawneNazwisko = true;
+					for (char c : nazwisko) {
+						if (!isalpha(c)) {
+							poprawneNazwisko = false;
+							std::cout << "Nazwisko nie moze zawierac cyfr. Sprobuj ponownie." << std::endl;
+							break;
+						}
+					}
+				}
 				nowyWlasciciel = new Wlasciciel(imie, nazwisko, pesel);
 				rejestr.dodajWlasciciela(*nowyWlasciciel);
 			}
@@ -319,6 +367,18 @@ void menu(RejestrPojazdow& rejestr) {
 			rejestr.wypiszWlascicieli();
 			break;
 		}case 7: {
+			string pesel, nazwaPliku;
+			rejestr.wypiszWlascicieli();
+			std::cout << "Podaj pesel wlasciciela, ktorego pojazdy chcesz zapisac: ";
+			std::cin >> pesel;
+			Wlasciciel* wlasciciel = rejestr.znajdzWlasciciela(pesel);
+			if (wlasciciel) {
+				nazwaPliku = wlasciciel->getImie() + "_" + wlasciciel->getNazwisko() + "_pojazdy.txt";
+				rejestr.zapiszPojazdyWlasciciela(pesel, nazwaPliku);
+			}
+			else {
+				std::cout << "Wlasciciel o podanym numerze PESEL nie istnieje." << std::endl;
+			}
 			break;
 		}case 8: {
 			break;
