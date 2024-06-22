@@ -183,8 +183,9 @@ void menu(RejestrPojazdow& rejestr) {
 						}
 					}
 				}
-				wlasciciel = new Wlasciciel(imie, nazwisko, pesel);
-				rejestr.dodajWlasciciela(*wlasciciel);
+				Wlasciciel nowyWlasciciel(imie, nazwisko, pesel);
+				rejestr.dodajWlasciciela(nowyWlasciciel);
+				wlasciciel = rejestr.znajdzWlasciciela(pesel);
 
 			}
 			else {
@@ -320,8 +321,9 @@ void menu(RejestrPojazdow& rejestr) {
 						}
 					}
 				}
-				nowyWlasciciel = new Wlasciciel(imie, nazwisko, pesel);
-				rejestr.dodajWlasciciela(*nowyWlasciciel);
+				Wlasciciel nowy(imie, nazwisko, pesel);
+				rejestr.dodajWlasciciela(nowy);
+				nowyWlasciciel = rejestr.znajdzWlasciciela(pesel);
 			}
 			rejestr.zmienWlasciciela(nrRejestracyjny, *nowyWlasciciel);
 			break;

@@ -55,7 +55,7 @@ bool RejestrPojazdow::zmienWlasciciela(const std::string& nrRejestracyjny, const
     for (Pojazd* pojazd : pojazdy) {
         if (pojazd->getnrRejestracyjny() == nrRejestracyjny) {
             pojazd->ustawWlasciciela(nowyWlasciciel);
-            std::cout << "W³aœciciel pojazdu o numerze rejestracyjnym " << nrRejestracyjny << " zosta³ zmieniony." << std::endl;
+            std::cout << "Wlasciciel pojazdu o numerze rejestracyjnym " << nrRejestracyjny << " zosta³ zmieniony." << std::endl;
             return true;
         }
     }

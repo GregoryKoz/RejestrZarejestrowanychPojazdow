@@ -18,12 +18,12 @@ int main(int argc, char* argv[]) {
     rejestr.nazwaPliku = argv[1];
    
 
-    if (!Wczytaj(rejestr.nazwaPliku, rejestr)) { //wczytywanie z pliku do klas
+    if (!Wczytaj(rejestr.nazwaPliku, rejestr)) { 
         return 0;
     }
     else
-    {   wyswietlMenu(); // funkcja wypisujaca na ekran menu
-        menu(rejestr); // funkcja menu pozwalaj¹ca wywo³ywaæ inne funkcje
+    {   wyswietlMenu(); 
+        menu(rejestr);
         Zapisz(rejestr.nazwaPliku, rejestr);
 
         return 0;
