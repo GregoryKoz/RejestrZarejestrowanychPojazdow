@@ -15,3 +15,7 @@ string Wlasciciel::getNazwisko() const {
 string Wlasciciel::getImie() const {
     return imie;
 }
+ostream& operator<<(ostream& os, const Wlasciciel& wlasciciel) {
+    os << "Dane: " << wlasciciel.imie << " " << wlasciciel.nazwisko << " Pesel: " << wlasciciel.pesel;
+    return os;
+}

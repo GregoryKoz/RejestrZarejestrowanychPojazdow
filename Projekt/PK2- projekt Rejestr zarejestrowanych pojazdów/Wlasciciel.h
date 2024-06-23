@@ -14,6 +14,6 @@ public:
 	string getNazwisko() const;
 	string getPesel() const;
 	
-	
+	friend ostream& operator<<(ostream& os, const Wlasciciel& wlasciciel);
 };
 

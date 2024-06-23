@@ -38,8 +38,8 @@ Wlasciciel* RejestrPojazdow::znajdzWlasciciela(const std::string& pesel) {
     return nullptr;
 }
 void RejestrPojazdow::wypiszWlascicieli() const {
-    for (const auto& w : wlasciciele) {
-        w.printInfo();
+    for (const auto& wlasciciel : wlasciciele) {
+        std::cout << wlasciciel << std::endl;
     }
 }
 bool RejestrPojazdow::dodajWlasciciela(const Wlasciciel& wlasciciel) {
@@ -79,7 +79,7 @@ void RejestrPojazdow::zapiszPojazdyTypu(const std::string& typ, const std::strin
             plik << "Nazwa: " << pojazd->getNazwa() << std::endl;
             plik << "Numer rejestracyjny: " << pojazd->getnrRejestracyjny() << std::endl;
             plik << "Wlasciciel: " << pojazd->getWlasciciel().getImie()<< " " << pojazd->getWlasciciel().getNazwisko()<< " " << pojazd->getWlasciciel().getPesel() << std::endl;
-            if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) {
+            if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) { //próba rzutowania wskaznika pojazd z fora na osobowy*
                 plik << "Ilosc miejsc: " << so->getIloscPasazerow() << std::endl;
             }
             else if (SamochodCiezarowy* sc = dynamic_cast<SamochodCiezarowy*>(pojazd)) {

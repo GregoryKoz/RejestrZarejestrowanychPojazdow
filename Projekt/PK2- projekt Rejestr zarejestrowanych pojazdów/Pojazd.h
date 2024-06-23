@@ -67,4 +67,6 @@ public:
      * @return Referencja do w³aœciciela pojazdu.
      */
     const Wlasciciel& getWlasciciel() const;
+    virtual ~Pojazd() = default;
 };
+
