@@ -12,5 +12,7 @@ public:
 	int getPojemnoscSilnika() const;
 	int getMocSilnika() const;
 
+	void zapiszDoPliku(std::ofstream& plik) const;
 
+	void zapiszKoniec(std::ofstream& plik) const;
 };

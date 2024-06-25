@@ -74,21 +74,7 @@ void RejestrPojazdow::zapiszPojazdyTypu(const std::string& typ, const std::strin
     }
     for (const auto& pojazd : pojazdy) {
         if (pojazd->getTyp() == typ) {
-            plik << "Typ: " << pojazd->getTyp() << std::endl;
-            plik << "Marka: " << pojazd->getMarka() << std::endl;
-            plik << "Nazwa: " << pojazd->getNazwa() << std::endl;
-            plik << "Numer rejestracyjny: " << pojazd->getnrRejestracyjny() << std::endl;
-            plik << "Wlasciciel: " << pojazd->getWlasciciel().getImie()<< " " << pojazd->getWlasciciel().getNazwisko()<< " " << pojazd->getWlasciciel().getPesel() << std::endl;
-            if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) { //próba rzutowania wskaznika pojazd z fora na osobowy*
-                plik << "Ilosc miejsc: " << so->getIloscPasazerow() << std::endl;
-            }
-            else if (SamochodCiezarowy* sc = dynamic_cast<SamochodCiezarowy*>(pojazd)) {
-                plik << "Maksymalna ladownosc: " <<sc->getLadownosc() << std::endl;
-            }
-            else if (Motocykl* m = dynamic_cast<Motocykl*>(pojazd)) {
-                plik << "Pojemnosc silnika: " << m->getPojemnoscSilnika() << std::endl;
-                plik << "Moc silnika: " << m->getMocSilnika();
-            }
+            pojazd->zapiszDoPliku(plik);
             plik << std::endl;
         }
     }
@@ -118,7 +104,7 @@ void RejestrPojazdow::zapiszPojazdyWlasciciela(const std::string& pesel, const s
             plik << "Marka: " << pojazd->getMarka() << std::endl;
             plik << "Nazwa: " << pojazd->getNazwa() << std::endl;
             plik << "Numer rejestracyjny: " << pojazd->getnrRejestracyjny() << std::endl;
-            if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) {
+            if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) { //rzutowanie *pojazd na SamochodOsobowy* so
                 plik << "Ilosc miejsc: " << so->getIloscPasazerow() << std::endl;
             }
             else if (SamochodCiezarowy* sc = dynamic_cast<SamochodCiezarowy*>(pojazd)) {
@@ -126,10 +112,10 @@ void RejestrPojazdow::zapiszPojazdyWlasciciela(const std::string& pesel, const s
             }
             else if (Motocykl* m = dynamic_cast<Motocykl*>(pojazd)) {
                 plik << "Pojemnosc silnika: " << m->getPojemnoscSilnika() << std::endl;
-                plik << "Moc silnika: " << m->getMocSilnika();
+                plik << "Moc silnika: " << m->getMocSilnika() << std::endl;
             }
             plik << std::endl; 
         }
     }
-
+    plik.close();
 }

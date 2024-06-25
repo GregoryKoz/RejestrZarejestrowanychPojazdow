@@ -53,23 +53,7 @@ bool Zapisz(const std::string& nazwaPliku, const RejestrPojazdow& rejestr) {
 	std::ofstream plik(nazwaPliku);
 	if (plik.is_open()) {
 		for (const auto& pojazd : rejestr.getPojazdy()) {
-			plik << pojazd->getTyp() << " "
-				<< pojazd->getWlasciciel().getImie() << " "
-				<< pojazd->getWlasciciel().getNazwisko() << " "
-				<< pojazd->getWlasciciel().getPesel() << " "
-				<< pojazd->getnrRejestracyjny() << " "
-				<< pojazd->getMarka() << " "
-				<< pojazd->getNazwa() << " ";
-			if (SamochodOsobowy* so = dynamic_cast<SamochodOsobowy*>(pojazd)) {
-				plik << so->getIloscPasazerow();
-			}
-			else if (SamochodCiezarowy* sc = dynamic_cast<SamochodCiezarowy*>(pojazd)) {
-				plik << sc->getLadownosc();
-			}
-			else if (Motocykl* m = dynamic_cast<Motocykl*>(pojazd)) {
-				plik << m->getPojemnoscSilnika() << " " << m->getMocSilnika();
-			}
-			plik << std::endl;
+			pojazd->zapiszKoniec(plik);
 		}
 		plik.close();
 		return true;
@@ -89,6 +73,7 @@ void wyswietlMenu() {
 	std::cout << "5. Zapisz typ pojazdu do pliku" << std::endl;
 	std::cout << "6. Wypisz wszystkich wlascicieli" << std::endl;
 	std::cout << "7. Zapisz pojazdy wybranego wlasciciela do pliku " << std::endl;
+	std::cout << "8. Wyswietl menu" << std::endl;
 	std::cout << "0. Zakoncz program" << std::endl;
 }
 void menu(RejestrPojazdow& rejestr) {
@@ -336,6 +321,7 @@ void menu(RejestrPojazdow& rejestr) {
 			std::cout << "1. Samochod osobowy" << std::endl;
 			std::cout << "2. Motocykl" << std::endl;
 			std::cout << "3. Samochod ciezarowy" << std::endl;
+
 			int typpojazdu = -1;
 			std::cin >> typpojazdu;
 			while (!std::cin || typpojazdu < 1 || typpojazdu > 3) {
@@ -382,7 +368,9 @@ void menu(RejestrPojazdow& rejestr) {
 				std::cout << "Wlasciciel o podanym numerze PESEL nie istnieje." << std::endl;
 			}
 			break;
-		}case 8: {
+		}
+		case 8: {
+			wyswietlMenu();
 			break;
 		}
 		case 0: {

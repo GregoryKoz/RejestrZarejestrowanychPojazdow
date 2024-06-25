@@ -16,3 +16,14 @@ int Motocykl::getPojemnoscSilnika() const {
 int Motocykl::getMocSilnika() const {
     return mocSilnika;
 }
+void Motocykl::zapiszDoPliku(std::ofstream& plik) const {
+    Pojazd::zapiszDoPliku(plik);  
+    plik << "Pojemnosc silnika: " << getPojemnoscSilnika() << std::endl;
+    plik << "Moc silnika: " << getMocSilnika() << std::endl;
+}
+
+void Motocykl::zapiszKoniec(std::ofstream& plik) const
+{
+    Pojazd::zapiszKoniec(plik);
+    plik << pojemnoscSilnika << " " << mocSilnika << std::endl;
+}

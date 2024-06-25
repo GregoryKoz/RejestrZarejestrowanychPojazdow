@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "Wlasciciel.h"
+//#include "RejestrPojazdów.h"
 using namespace std;
 
 /**
@@ -67,6 +69,8 @@ public:
      * @return Referencja do w³aœciciela pojazdu.
      */
     const Wlasciciel& getWlasciciel() const;
-    virtual ~Pojazd() = default;
+    //virtual ~Pojazd() = default;
+    virtual void zapiszDoPliku(std::ofstream& plik) const;
+    virtual void zapiszKoniec(std::ofstream& plik) const;
 };
 

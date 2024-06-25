@@ -11,3 +11,13 @@ void SamochodCiezarowy::printInfo() const {
 int SamochodCiezarowy::getLadownosc() const {
     return ladownosc;
 }
+void SamochodCiezarowy::zapiszDoPliku(std::ofstream& plik) const {
+    Pojazd::zapiszDoPliku(plik);  
+    plik << "Maksymalna ladownosc: " << getLadownosc() << std::endl;
+}
+
+void SamochodCiezarowy::zapiszKoniec(std::ofstream& plik) const
+{
+    Pojazd::zapiszKoniec(plik);
+    plik << ladownosc << std::endl;
+}

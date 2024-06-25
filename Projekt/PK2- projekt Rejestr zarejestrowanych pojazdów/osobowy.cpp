@@ -11,3 +11,12 @@ void SamochodOsobowy::printInfo() const {
 int SamochodOsobowy::getIloscPasazerow() const {
     return iloscPasazerow;
 }
+void SamochodOsobowy::zapiszDoPliku(std::ofstream& plik) const {
+    Pojazd::zapiszDoPliku(plik);  
+    plik << "Ilosc miejsc: " << iloscPasazerow << std::endl;
+}
+void SamochodOsobowy::zapiszKoniec(std::ofstream& plik) const
+{
+    Pojazd::zapiszKoniec(plik);
+    plik << iloscPasazerow << std::endl;
+}
