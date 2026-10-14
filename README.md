@@ -1,1 +1,1 @@
-# 62e96e10-gr11-repo
+Project in C++/Qt for Computer Programming subject.
